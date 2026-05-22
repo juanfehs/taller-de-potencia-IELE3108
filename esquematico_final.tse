@@ -1,0 +1,816 @@
+version = 4.2
+
+//
+// Saved by sw version: 2025.2
+//
+
+model "Esq2Inv_13_04_2026_modified" {
+    configuration {
+        hil_device = "HIL604"
+        hil_configuration_id = 2
+        simulation_method = exact
+        simulation_time_step = 2e-6
+        simulation_discret_scaling = 1.0
+        dsp_timer_periods = 100e-6, 50e-3
+        ss_calc_method = "systematic elimination"
+        enb_pole_shift = True
+        enb_gds_oversampling = True
+        show_modes = False
+        device_ao_limit_enable = False
+        reset_analog_outputs_on_sim_stop = True
+        reset_analog_outputs_on_sim_stop_mode = Offset values
+        reset_digital_outputs_on_sim_stop = True
+        vhil_adio_loopback = False
+        cpl_stb = False
+        enb_dep_sw_detect = False
+        code_section = "internal memory"
+        data_section = "internal memory"
+        sys_sp_rate_1 = 0.0001
+        sys_sp_rate_2 = 0.05
+        sys_real_type_precision = "default"
+        user_real_type_precision = "default"
+        sys_cpu_optimization = "high"
+        user_cpu_optimization = "high"
+        user_cpu_part_option = "default"
+        matrix_based_reduction = True
+        cpl_dynamics_analysis = False
+        export_ss_to_pickle = False
+        ground_scope_core = True
+        dss_num_tol = 1e-15
+        cce_platform = "generic"
+        cce_use_relative_names = False
+        cce_type_mapping_real = "double"
+        cce_type_mapping_uint = "unsigned int"
+        cce_type_mapping_int = "int"
+        cce_platform = "generic"
+        cce_use_relative_names = False
+        cce_type_mapping_real = "double"
+        cce_type_mapping_uint = "unsigned int"
+        cce_type_mapping_int = "int"
+        cce_term_var_location = "local"
+        cce_directory = ""
+        cce_custom_type_int = ""
+        cce_custom_type_uint = ""
+        cce_custom_type_real = ""
+        tunable_params = "component defined"
+        sp_compiler_type = "C compiler"
+        sig_stim = "off"
+        export_resource_list = ""
+        export_dependency_list = ""
+        excluded_resource_list = ""
+        excluded_component_from_locking_list = ""
+        export_out_file = ""
+        export_lock_top_level = True
+        export_encrypt_library = True
+        export_encrypt_resources = True
+        solver_type = "DAE"
+        integration_method = "BDF"
+        max_sim_step = 1e-4
+        simulation_time = 1.0
+        abs_tol = 1e-3
+        rel_tol = 1e-3
+        init_sim_step = 1e-6
+        r_on_sw = 1e-3
+        v_on_diode = 0.2
+        data_sampling_rate = 0
+        feedthrough_validation_error_level = warning
+    }
+
+    component Subsystem Root {
+        component "core/Three-phase Meter" "Three-phase Meter1" {
+            I_rms = "True"
+            P_meas = "True"
+            Ts = "ts"
+            VLn_rms = "True"
+            enable_out = "False"
+            freq = "True"
+        }
+        [
+            position = 8984, 8684
+            rotation = right
+            scale = -1, -1
+            size = 56, 240
+        ]
+
+        component "core/Grid Simulator" "Grid Simulator1" {
+            Sb = "100e6"
+            Vb = "480"
+            f = "60"
+            inductance_grid_simulator = "1e-6"
+            model_definition = "S-U"
+            resistance_grid_simulator = "10e-3"
+        }
+        [
+            position = 8984, 8376
+            rotation = left
+            size = 120, 256
+        ]
+
+        component "core/Constant Impedance Load" "Constant Impedance Load2" {
+            SAB = "100000/3"
+            SAn = "100000/3"
+            SBC = "100000/3"
+            SBn = "100000/3"
+            SCA = "100000/3"
+            SCn = "100000/3"
+            Sn_3ph = "100000"
+            VAn = "480/np.sqrt(3)"
+            VBn = "480/np.sqrt(3)"
+            VCn = "480/np.sqrt(3)"
+            pf_modeA = "Lag"
+            pf_modeB = "Lag"
+            pf_modeC = "Lag"
+            pf_mode_3ph = "Lag"
+        }
+        [
+            position = 9376, 9700
+            size = 184, 152
+        ]
+
+        component "core/Three-phase Variable Load" "Three-phase Variable Load1" {
+            Snom = "400000"
+            Vnom_rms = "480"
+            enable_ext_ref = "True"
+            enable_outputs = "True"
+            execution_rate = "ts"
+            fnom = "60"
+            pf_nom = "0.85"
+            pf_snubber = "0.9"
+        }
+        [
+            position = 9008, 9700
+            size = 184, 160
+        ]
+
+        component "core/Constant" Constant1 {
+        }
+        [
+            position = 8588, 9652
+            hide_name = True
+        ]
+
+        component "core/Constant" Constant2 {
+        }
+        [
+            position = 8588, 9700
+            hide_name = True
+        ]
+
+        component "core/Constant" Constant3 {
+            value = "5"
+        }
+        [
+            position = 8644, 9748
+            hide_name = True
+        ]
+
+        component "core/Dynamic Table" "Dynamic Table2" {
+            execution_rate = "inherit"
+            import_dynamic_table_file = "perfil_industrial_FP0.85.csv"
+            model_load_legacy = "1"
+            signal_names = "[\'P\', \'Q\']"
+            x_vec = "[0.0, 10.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0, 100.0, 110.0, 120.0, 130.0, 140.0, 150.0, 160.0, 170.0, 180.0, 190.0, 200.0, 210.0, 220.0, 230.0, 240.0, 250.0, 260.0, 270.0, 280.0, 290.0, 300.0, 310.0, 320.0, 330.0, 340.0, 350.0, 360.0, 370.0, 380.0, 390.0, 400.0, 410.0, 420.0, 430.0, 440.0, 450.0, 460.0, 470.0, 480.0, 490.0, 500.0, 510.0, 520.0, 530.0, 540.0, 550.0, 560.0, 570.0, 580.0, 590.0, 600.0, 610.0, 620.0, 630.0, 640.0, 650.0, 660.0, 670.0, 680.0, 690.0, 700.0, 710.0]"
+            y_vec = "[[0.1636, 0.1463, 0.1503, 0.1533, 0.1437, 0.1501, 0.15, 0.136, 0.1582, 0.1549, 0.145, 0.1487, 0.1541, 0.1646, 0.1815, 0.1884, 0.3546, 0.5012, 0.7305, 0.7381, 0.8635, 0.9516, 0.9639, 0.9999, 1.0, 0.9821, 0.9838, 0.962, 0.9854, 0.9704, 0.9644, 0.9756, 0.9505, 0.9646, 0.9071, 0.8817, 0.8407, 0.8787, 0.8978, 0.9697, 0.9304, 0.9456, 0.9749, 0.9677, 0.9633, 0.9659, 0.9768, 0.985, 0.9625, 0.9495, 0.9623, 0.9422, 0.9211, 0.9023, 0.8793, 0.8512, 0.8155, 0.8043, 0.7495, 0.7098, 0.6473, 0.5516, 0.4827, 0.4137, 0.3304, 0.2596, 0.1905, 0.175, 0.1643, 0.1406, 0.162, 0.1478], [0.1014, 0.0907, 0.0932, 0.095, 0.0891, 0.093, 0.093, 0.0843, 0.098, 0.096, 0.0899, 0.0921, 0.0955, 0.102, 0.1125, 0.1168, 0.2197, 0.3106, 0.4527, 0.4574, 0.5352, 0.5897, 0.5974, 0.6197, 0.6197, 0.6086, 0.6097, 0.5962, 0.6107, 0.6014, 0.5977, 0.6046, 0.589, 0.5978, 0.5622, 0.5464, 0.521, 0.5446, 0.5564, 0.601, 0.5766, 0.586, 0.6042, 0.5997, 0.597, 0.5986, 0.6053, 0.6105, 0.5965, 0.5884, 0.5964, 0.5839, 0.5709, 0.5592, 0.5449, 0.5275, 0.5054, 0.4985, 0.4645, 0.4399, 0.4012, 0.3419, 0.2992, 0.2564, 0.2048, 0.1609, 0.1181, 0.1085, 0.1018, 0.0871, 0.1004, 0.0916]]"
+        }
+        [
+            position = 8296, 9464
+            size = 48, 48
+        ]
+
+        component "core/Bus Join" "Bus Join1" {
+            inputs = "3"
+        }
+        [
+            position = 8360, 9556
+        ]
+
+        component "core/Bus Join" "Bus Join2" {
+            inputs = "3"
+        }
+        [
+            position = 8360, 9680
+        ]
+
+        component "core/Three-phase Meter" "Three-phase Meter2" {
+            I_rms = "True"
+            P_meas = "True"
+            Ts = "ts"
+            VLn_rms = "True"
+            enable_out = "False"
+            freq = "True"
+        }
+        [
+            position = 8984, 9288
+            rotation = right
+            scale = -1, 1
+            size = 56, 240
+        ]
+
+        component "core/Probe" "Pref probe" {
+        }
+        [
+            position = 8656, 9424
+        ]
+
+        component "core/Probe" "Qref probe" {
+        }
+        [
+            position = 8656, 9488
+        ]
+
+        component "core/Ground" gnd1 {
+        }
+        [
+            position = 9160, 9340
+            hide_name = True
+        ]
+
+        component "core/Ground" gnd2 {
+        }
+        [
+            position = 9180, 8720
+            hide_name = True
+        ]
+
+        component "core/Ground" gnd3 {
+        }
+        [
+            position = 8796, 8376
+            hide_name = True
+        ]
+
+        component "core/Ground" gnd4 {
+        }
+        [
+            position = 9160, 9696
+            hide_name = True
+        ]
+
+        component "core/Four Phase Core Coupling" "Core Coupling 2" {
+            C1 = "cpl_c1"
+            R1 = "cpl_r1"
+            fixed_snb_i = "true"
+            snb_type_i = "R1-C1"
+        }
+        [
+            position = 9032, 9148
+            rotation = left
+            scale = 1, -1
+            size = 13, 351
+        ]
+
+        component "core/Ground" gnd5 {
+        }
+        [
+            position = 9176, 9220
+            hide_name = True
+        ]
+
+        component "core/Ground" gnd6 {
+        }
+        [
+            position = 9264, 9220
+            hide_name = True
+        ]
+
+        component "EPC Power/CAB1K 2 LVL" "CAB1K 2 LVL1" {
+            hil_device_id = "0"
+        }
+        [
+            position = 8628, 8908
+            size = 157, 256
+        ]
+
+        component "core/Resistor" R1 {
+            resistance = "1e-4"
+        }
+        [
+            position = 8340, 8808
+        ]
+
+        component "core/Voltage Source" Vs1 {
+            init_const_value = "820"
+        }
+        [
+            position = 8256, 8960
+        ]
+
+        component "core/Current Measurement" Ia1 {
+        }
+        [
+            position = 8264, 8808
+            size = 64, 32
+        ]
+
+        component "core/Probe" Probe1 {
+        }
+        [
+            position = 8920, 9868
+        ]
+
+        tag From3 {
+            value = "pref_bal"
+            scope = local
+            kind = sp
+            direction = out
+        }
+        [
+            position = 8240, 9556
+            hide_name = True
+            size = 60, 20
+        ]
+
+        tag Goto1 {
+            value = "pref_bal"
+            scope = local
+            kind = sp
+            direction = in
+        }
+        [
+            position = 8404, 9456
+            hide_name = True
+            size = 60, 20
+        ]
+
+        tag Goto2 {
+            value = "qref_bal"
+            scope = local
+            kind = sp
+            direction = in
+        }
+        [
+            position = 8488, 9472
+            hide_name = True
+            size = 60, 20
+        ]
+
+        tag Goto3 {
+            value = "pref"
+            scope = local
+            kind = sp
+            direction = in
+        }
+        [
+            position = 8492, 9556
+            hide_name = True
+            size = 60, 20
+        ]
+
+        tag From4 {
+            value = "qref_bal"
+            scope = local
+            kind = sp
+            direction = out
+        }
+        [
+            position = 8240, 9680
+            hide_name = True
+            size = 60, 20
+        ]
+
+        tag Goto4 {
+            value = "qref"
+            scope = local
+            kind = sp
+            direction = in
+        }
+        [
+            position = 8492, 9680
+            hide_name = True
+            size = 60, 20
+        ]
+
+        tag From5 {
+            value = "pref_bal"
+            scope = local
+            kind = sp
+            direction = out
+        }
+        [
+            position = 8796, 9720
+            hide_name = True
+            size = 60, 20
+        ]
+
+        tag From6 {
+            value = "qref_bal"
+            scope = local
+            kind = sp
+            direction = out
+        }
+        [
+            position = 8712, 9736
+            hide_name = True
+            size = 60, 20
+        ]
+
+        tag From7 {
+            value = "pref"
+            scope = local
+            kind = sp
+            direction = out
+        }
+        [
+            position = 8796, 9668
+            hide_name = True
+            size = 60, 20
+        ]
+
+        tag From8 {
+            value = "qref"
+            scope = local
+            kind = sp
+            direction = out
+        }
+        [
+            position = 8712, 9684
+            hide_name = True
+            size = 60, 20
+        ]
+
+        tag From9 {
+            value = "pref_bal"
+            scope = local
+            kind = sp
+            direction = out
+        }
+        [
+            position = 8564, 9424
+            hide_name = True
+            size = 60, 20
+        ]
+
+        tag From10 {
+            value = "qref_bal"
+            scope = local
+            kind = sp
+            direction = out
+        }
+        [
+            position = 8564, 9488
+            hide_name = True
+            size = 60, 20
+        ]
+
+        junction Junction64 sp
+        [
+            position = 8300, 9556
+        ]
+
+        junction Junction65 sp
+        [
+            position = 8300, 9680
+        ]
+
+        junction Junction66 pe
+        [
+            position = 8936, 9392
+        ]
+
+        junction Junction67 pe
+        [
+            position = 8984, 9464
+        ]
+
+        junction Junction68 pe
+        [
+            position = 9032, 9536
+        ]
+
+        junction Junction69 pe
+        [
+            position = 8888, 8816
+        ]
+
+        junction Junction70 pe
+        [
+            position = 8984, 8904
+        ]
+
+        junction Junction71 pe
+        [
+            position = 9080, 9000
+        ]
+
+        connect "Three-phase Meter1.A-" "Grid Simulator1.Phase A" as Connection268
+        [
+            breakpoints = 8888, 8540; 8888, 8496
+        ]
+        connect "Three-phase Meter1.C-" "Grid Simulator1.Phase C" as Connection269
+        [
+            breakpoints = 9080, 8516; 9080, 8488
+        ]
+        connect "Three-phase Meter1.B-" "Grid Simulator1.Phase B" as Connection270
+        connect Constant1.out "Three-phase Variable Load1.Enable_ext" as Connection369
+        connect Constant3.out "Three-phase Variable Load1.ROC_ext" as Connection407
+        [
+            hide_name = True
+        ]
+        connect Constant2.out "Three-phase Variable Load1.Balance_en_ext" as Connection409
+        connect "Dynamic Table2.out" Goto1 as Connection410
+        connect From5 "Three-phase Variable Load1.Pref_bal_ext" as Connection423
+        connect From6 "Three-phase Variable Load1.Qref_bal_ext" as Connection424
+        [
+            hide_name = True
+        ]
+        connect From7 "Three-phase Variable Load1.Pref_ext" as Connection425
+        connect From8 "Three-phase Variable Load1.Qref_ext" as Connection426
+        [
+            hide_name = True
+        ]
+        connect "Bus Join2.out" Goto4 as Connection440
+        connect "Dynamic Table2.out1" Goto2 as Connection560
+        connect "Bus Join1.in" Junction64 as Connection567
+        connect "Bus Join1.in1" Junction64 as Connection568
+        connect "Bus Join1.in2" Junction64 as Connection569
+        connect "Bus Join2.in" Junction65 as Connection570
+        connect "Bus Join2.in1" Junction65 as Connection571
+        connect "Bus Join2.in2" Junction65 as Connection572
+        connect From3 Junction64 as Connection573
+        connect From4 Junction65 as Connection574
+        connect Junction66 "Three-phase Variable Load1.A" as Connection579
+        connect Junction66 "Three-phase Meter2.A-" as Connection580
+        [
+            breakpoints = 8936, 9392; 8936, 9324
+        ]
+        connect Junction67 "Three-phase Variable Load1.B" as Connection582
+        connect Junction67 "Three-phase Meter2.B-" as Connection583
+        connect Junction68 "Three-phase Variable Load1.C" as Connection585
+        connect Junction68 "Three-phase Meter2.C-" as Connection586
+        [
+            breakpoints = 9032, 9536; 9032, 9324
+        ]
+        connect "Constant Impedance Load2.A" Junction66 as Connection596
+        [
+            breakpoints = 9304, 9392
+        ]
+        connect "Constant Impedance Load2.C" Junction68 as Connection597
+        [
+            breakpoints = 9448, 9536
+        ]
+        connect "Constant Impedance Load2.B" Junction67 as Connection598
+        [
+            breakpoints = 9376, 9464
+        ]
+        connect "Bus Join1.out" Goto3 as Connection605
+        connect From9 "Pref probe.in" as Connection606
+        connect From10 "Qref probe.in" as Connection607
+        connect "Three-phase Meter2.GND" gnd1.node as Connection608
+        connect "Three-phase Meter1.GND" gnd2.node as Connection609
+        connect gnd3.node "Grid Simulator1.Neutral" as Connection610
+        connect gnd4.node "Three-phase Variable Load1.N" as Connection611
+        connect "Core Coupling 2.c_out" "Three-phase Meter2.C+" as Connection613
+        connect "Core Coupling 2.b_out" "Three-phase Meter2.B+" as Connection615
+        connect "Core Coupling 2.a_out" "Three-phase Meter2.A+" as Connection617
+        connect gnd6.node "Core Coupling 2.d_in" as Connection618
+        connect gnd5.node "Core Coupling 2.d_out" as Connection619
+        connect "Core Coupling 2.a_in" Junction69 as Connection623
+        connect Junction69 "Three-phase Meter1.A+" as Connection624
+        connect "CAB1K 2 LVL1.A" Junction69 as Connection625
+        connect "Core Coupling 2.b_in" Junction70 as Connection626
+        connect Junction70 "Three-phase Meter1.B+" as Connection627
+        connect "CAB1K 2 LVL1.B" Junction70 as Connection628
+        connect "Core Coupling 2.c_in" Junction71 as Connection629
+        connect Junction71 "Three-phase Meter1.C+" as Connection630
+        connect "CAB1K 2 LVL1.C" Junction71 as Connection631
+        connect R1.n_node "CAB1K 2 LVL1.DC(+)" as Connection632
+        connect Vs1.n_node "CAB1K 2 LVL1.DC(-)" as Connection634
+        connect Vs1.p_node Ia1.p_node as Connection635
+        connect Ia1.n_node R1.p_node as Connection636
+        connect "Three-phase Variable Load1.output_vector" Probe1.in as Connection637
+    }
+
+    default {
+        "core/Bus Join" {
+            inputs = "2"
+            execution_rate = "inherit"
+        }
+
+        "core/Constant" {
+            value = "1"
+            signal_type = "real"
+            execution_rate = "100e-6"
+            _tunable = "False"
+        }
+
+        "core/Probe" {
+            signal_access = "inherit"
+            addr = "0"
+            override_signal_name = "False"
+            signal_name = ""
+            signal_type = "generic"
+            streaming_en = "False"
+            streaming_er_idx = "0"
+            execution_rate = "inherit"
+        }
+
+        "core/Resistor" {
+            resistance = "1"
+            param_set = ""
+        }
+
+        "core/Voltage Source" {
+            sig_input = "False"
+            type = "signal generator"
+            param_set = "1phase"
+            parent_label = ""
+            dtsm_switch_name = ""
+            addr = "0"
+            spc_nb = "0"
+            execution_rate = "100e-6"
+            cpd_visible = "True"
+            enable_snb = "False"
+            snb_type = "R2"
+            R2 = "0.0"
+            L1 = "0.1"
+            override_signal_name = "False"
+            signal_name = ""
+            init_source_nature = "Constant"
+            init_const_value = "0.0"
+            init_rms_value = "0.0"
+            init_frequency = "50.0"
+            init_phase = "0.0"
+        }
+
+        "EPC Power/CAB1K 2 LVL" {
+            hil_device_id = "dynamic"
+            io_position = "Row A (BOT)"
+            hil_compatible_version = "Version 1.4"
+            hil_compatible_conf_code = "F3XX0EJ1XX0XX0XX0XX0EJ0XX0"
+            inv_number = "1 - Left"
+            execution_rate = "100e-6"
+            pre_charge_type = "DC"
+            Vrec_ACpc = "480"
+            lcl_coupling = "True"
+            dc_core_coupling = "False"
+            voltage_vab = ""
+            voltage_vbc = ""
+        }
+
+        "core/Constant Impedance Load" {
+            fn = "60"
+            conn_type = "Y"
+            enable_neutral = "False"
+            set_balanced = "True"
+            Vn_3ph = "480"
+            Sn_3ph = "1.0e6"
+            pf_mode_3ph = "Unit"
+            pf_3ph = "0.9"
+            VAn = "480/(3**0.5)"
+            VAB = "480"
+            SAn = "1.0e6/3"
+            SAB = "1.0e6/3"
+            pf_modeA = "Unit"
+            pfA = "0.9"
+            VBn = "480/(3**0.5)"
+            VBC = "480"
+            SBn = "1.0e6/3"
+            SBC = "1.0e6/3"
+            pf_modeB = "Unit"
+            pfB = "0.9"
+            VCn = "480/(3**0.5)"
+            VCA = "480"
+            SCn = "1.0e6/3"
+            SCA = "1.0e6/3"
+            pf_modeC = "Unit"
+            pfC = "0.9"
+        }
+
+        "core/Current Measurement" {
+            signal_access = "inherit"
+            bw_limit = "False"
+            frequency = "10e3"
+            comparator_enable = "False"
+            operator = "greater"
+            threshold = "0"
+            cmp_abs_value = "False"
+            feed_forward = "false"
+            sig_output = "False"
+            sig_output_filt_and_full_bw = "False"
+            execution_rate = "100e-6"
+            addr = "0"
+            nd_msr_estimation = "false"
+            dev_cpl_msr = "false"
+            host_device = "0"
+            output_to_device = "0"
+            dev_cpl_index = "0"
+            dev_cpl_var_nb = "0"
+            visible = "True"
+            override_signal_name = "False"
+            signal_name = ""
+        }
+
+        "core/Dynamic Table" {
+            x_vec = "[0,2,3,1,5]"
+            y_vec = "[[0,2,3,1,5]]"
+            signal_names = "[\'out0\']"
+            import_dynamic_table_file = "not selected"
+            preview = "Preview Dynamic Table Curve"
+            execution_rate = "100e-6"
+            model_load_legacy = "0"
+        }
+
+        "core/Four Phase Core Coupling" {
+            snb_type_i = "none"
+            R1 = "100e3"
+            C1 = "1e-06"
+            C2 = "1e-06"
+            fixed_snb_i = "false"
+            snb_type_u = "none"
+            R2 = "0.1"
+            L1 = "0.1"
+            L2 = "0.1"
+            fixed_snb_u = "false"
+            cpl_connection = "star"
+        }
+
+        "core/Grid Simulator" {
+            model_definition = "R-L"
+            Vb = "400"
+            f = "50"
+            resistance_grid_simulator = "1.0"
+            inductance_grid_simulator = "1e-3"
+            Sb = "1e6"
+            pf = "0.1"
+            x_r_ratio = "5"
+        }
+
+        "core/Three-phase Meter" {
+            R = "1e5"
+            n_cycles = "1"
+            Ts = "100e-6"
+            enable_probes = "True"
+            enable_out = "True"
+            remove_snubber = "False"
+            enable_bandwidth = "False"
+            bandwidth = "10e3"
+            VAn = "True"
+            VBn = "True"
+            VCn = "True"
+            VAB = "False"
+            VBC = "False"
+            VCA = "False"
+            VN = "False"
+            IA = "True"
+            IB = "True"
+            IC = "True"
+            IN = "False"
+            freq = "False"
+            VLn_rms = "False"
+            VLL_rms = "False"
+            VLn_avg_rms = "False"
+            VLL_avg_rms = "False"
+            VN_rms = "False"
+            I_rms = "False"
+            I_avg_rms = "False"
+            IN_rms = "False"
+            P_method = "alpha-beta"
+            enable_extra_out = "False"
+            P_meas = "False"
+        }
+
+        "core/Three-phase Variable Load" {
+            core_type = "Series"
+            Vnom_rms = "400"
+            fnom = "50"
+            Snom = "3000"
+            pf_nom = "0.9"
+            include_harmonic = "False"
+            harmonic_list = "[1,3,5,7,9]"
+            execution_rate = "100e-6"
+            Z_ind_pu = "0.05"
+            pf_snubber = "0.4"
+            enable_ext_ref = "False"
+            enable_outputs = "False"
+            cpl_type = "None"
+            R_snb = "1e1"
+            C_snb = "1e-6"
+            cpl_orientation = "Load"
+            cpl_fixed_snb = "True"
+            cpl_inductance = "1e-6"
+            enable_three_wire = "False"
+            voltage_meas_in_adj_core = "False"
+        }
+    }
+
+    CODE model_init
+        # Numpy module is imported as 'np'
+        # Scipy module is imported as 'sp'
+        # The Schematic API is imported as 'mdl'
+        # To get the model file path, use 'mdl.get_model_file_path()'
+        # To print information to the console, use info()
+        
+        ts = 100e-6
+        
+        cpl_tct = 20e-6
+        cpl_power = 3e3
+        cpl_voltage = 480
+        cpl_freq = 60
+         
+        # Current source side
+        cpl_pt = 0.01
+        cpl_z = cpl_voltage * cpl_voltage / (cpl_pt * cpl_power)
+        cpl_c1= 1 / (2 * np.pi * cpl_freq * cpl_z)
+        cpl_r1 = cpl_tct / cpl_c1
+    ENDCODE
+}

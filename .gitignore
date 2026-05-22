@@ -1,0 +1,28 @@
+# Entorno virtual
+.venv/
+
+# Cache de Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Configuración local de Claude y VSCode
+.claude/
+.vscode/
+
+# Archivos de datos grandes (no solicitados)
+Datos de prueba/
+Articulos/
+Datasheets/
+Prueba1 Target files/
+
+# PDFs pesados
+Taller_de_potencia_2026.pdf
+
+# Presentaciones
+*.pptx
+presentacion_final.pdf
+
+# Imágenes de simulación (opcionales)
+simu_rigol.png
+fig_perfiles_informe.png
